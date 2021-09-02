@@ -1,72 +1,63 @@
 <template>
     <div>
-        <h1>Create an event</h1>
-        <form @submit.prevent="saveEvent">
-            <label>Category</label>
+        <h1>Create an Organizer</h1>
+        <form @submit.prevent="saveOrganizer">
+            <label>ID</label>
             <input
-                v-model="event.category"
+                v-model="organizer.id"
                 type="text"
-                placeholder="Category"
+                placeholder="ID"
                 class="field"
             />
-            <h3>Name & describe your event</h3>
+            <h3>Name</h3>
 
-            <label>Title</label>
+            <label>Name</label>
             <input 
-                v-model="event.title"
+                v-model="organizer.name"
                 type="text"
-                placeholder="Title"
-                class="field"
-            />
-
-            <label>Description</label>
-            <input 
-                v-model="event.description"
-                type="text"
-                placeholder="Description"
+                placeholder="Name"
                 class="field"
             />
 
-            <h3>Where is your event?</h3>
-            <label>Location</label>
+            <label>Address</label>
             <input 
-                v-model="event.location"
+                v-model="organizer.address"
                 type="text"
-                placeholder="Location"
+                placeholder="Address"
                 class="field"
             />
+
             <button type="submit">Submit</button>
         </form>
 
-        <pre>{{ event }}</pre>
+        <pre>{{ organizer }}</pre>
     </div>
 </template>
 
 <script>
-import EventService from '@/services/EventService.js'
+import OrganizerService from '@/services/OrganizerService.js'
 export default {
     inject: ['GStore'],
     data() {
         return {
-            event: {
-                category:'',
-                title:'',
-                description:'',
-                location:''
+            organizer: {
+                id:'',
+                name:'',
+                address:''
             }
         }
     },
     methods: {
-        saveEvent() {
-            EventService.saveEvent(this.event)
+        saveOrganizer() {
+            OrganizerService.saveOrganizer(this.organizer)
             .then((response) => {
                 console.log(response)
                 this.$router.push({
-                    name: 'EventLayout',
+                    name: 'OrganizerLayout',
                     params: { id: response.data.id}
                 })
                 this.GStore.flashMessage = 
-                'You are successfully add a new event for ' + response.data.title
+                'You are successfully add a new Organizer for ' + response.data.name
                 setTimeout(() => {
                     this.GStore.flashMessage = ''
                 }, 3000)
